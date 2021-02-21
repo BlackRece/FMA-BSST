@@ -1,17 +1,26 @@
+/*	BinSST.cpp - by Rece Thompson-Hamilton */
+
 #include "BinSST.h"
 
-BinSST::~BinSST() {
-	/* Delete all node pointers! */
+string StrRepeat(string str, int amount) {
+	string result = "";
+	for (int i = 0; i < amount; ++i)
+		result += str;
+	return result;
 }
 
 Node* BinSST::Delete(Node* node, int x) {
 	if (node == nullptr) return node;
 
-	if (x < node->key) 
+	if (x < node->key) {
 		node->left = Delete(node->left, x);
+		return node;
+	}
 
-	if (x > node->key) 
+	if (x > node->key) {
 		node->right = Delete(node->right, x);
+		return node;
+	}
 
 	//if leaf node
 	if (node->left == nullptr && node->right == nullptr) {
@@ -78,7 +87,7 @@ Node* BinSST::FindMin(Node* node) {
 		parent->left = orphan;
 
 	//return left most child
-	return leftmost;
+	return parent;
 }
 
 Node* BinSST::FindMax(Node* node) {
@@ -101,38 +110,42 @@ Node* BinSST::FindMax(Node* node) {
 	return rightmost;
 }
 
-void BinSST::Insert(int x) {
-	if (_root == nullptr) {
-		_root = new Node(x);
-		return;
-	}
-
-	Insert(_root, x); 
-}
-
 Node* BinSST::Insert(Node* node, int x) {
 	if (node == nullptr) {
-
-		//node = newNode;// (x);
 		return new Node(x);
 	}
 
 	if (x < node->key)
-		return Insert(node->left, x);
+		node->left = Insert(node->left, x);
 	else
-		return Insert(node->right, x);
+		node->right = Insert(node->right, x);
+
+	return node;
 }
 
-void BinSST::Print(Node* node, int leg) {
-	if (node == nullptr) {
-		std::cout << "{}";
-		return;
+string BinSST::Print(Node* node, int leg) {
+	string str = "";
+	if (node == nullptr)
+		return "{}";
+
+	string branch = "\tLeg " + to_string(leg) + ":\t";
+	string key = "[" + to_string(node->key) + "]";
+
+	string lt = "";
+	string lNode = "";
+	if (node->left != nullptr){
+		lt = "L: " + to_string(node->left->key);
+		lNode = "\nLeft" + Print(node->left, leg + 1);
 	}
 
-	std::cout << leg << ": " << node->key << std::endl;
-
-	leg++;
-
-	Print(node->left, leg);
-	Print(node->right, leg);
+	string rt = "";
+	string rNode = "";
+	if (node->right != nullptr) {
+		rt = " | R: " + to_string(node->right->key);
+		rNode = "\nRight" + Print(node->right, leg + 1);
+	}
+	
+	str = branch + key + " (" + lt + rt +")"+ lNode + rNode;
+	
+	return str;
 }

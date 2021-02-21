@@ -1,5 +1,8 @@
+/*	BinSST.h - by Rece Thompson-Hamilton */
+
 #pragma once
 #include <iostream>
+#include <string>
 
 using namespace std;
 
@@ -20,25 +23,20 @@ public:
 };
 
 class BinSST {
-private:
-	Node*	_root =	nullptr;
-
 public:
 
-	BinSST() :_root(nullptr) {}
-	~BinSST();
+	Node*	_root =	nullptr;
 
-	Node* Delete(int x) { _root = Delete(_root, x); }
-	Node* Find(int x) { return Find(_root, x); }
-	void Insert(int x);
-	void Print() { Print(_root); }
+	BinSST() : _root(nullptr) {}
+	~BinSST() { free(_root); }
+
+	Node*	Delete	(Node* node, int x);
+	Node*	Find	(Node* node, int x);
+	Node*	Insert	(Node* node, int x);
+	string	Print	(Node* node, int leg = 0);
 
 private:
 	
-	Node*	Delete	(Node* node, int x);
-	Node*	Find	(Node* node, int x);
 	Node*	FindMin	(Node* node);
 	Node*	FindMax	(Node* node);
-	Node*	Insert	(Node* node, int x);
-	void	Print	(Node* node, int leg = 0);
 };
