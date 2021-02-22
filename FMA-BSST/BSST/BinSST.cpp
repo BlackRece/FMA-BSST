@@ -111,13 +111,13 @@ Node* BinSST::FindMax(Node* node) {
 }
 
 Node* BinSST::Insert(Node* node, int x) {
-	if (node == nullptr) {
+	if (node == nullptr) 
 		return new Node(x);
-	}
 
 	if (x < node->key)
 		node->left = Insert(node->left, x);
-	else
+	
+	if(x > node->key)
 		node->right = Insert(node->right, x);
 
 	return node;

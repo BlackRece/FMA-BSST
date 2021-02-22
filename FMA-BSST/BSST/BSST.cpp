@@ -27,6 +27,7 @@ int main() {
         cout << tree.Print(tree._root) << endl;
     }
 
+    cout << "\nNotice that duplicates are discarded!" << endl;
     cout << "\n\n6) Delete '7' from tree:\n" << 
         "LEAF NODE" << endl;
     tree.Delete(tree._root, 7);
@@ -42,9 +43,14 @@ int main() {
     tree.Delete(tree._root, 6);
     cout << tree.Print(tree._root) << endl;
 
-    cout << "\n\n7) Find first node with key = '8' from tree:\n" << endl;
+    cout << "\n\n7) Insert '01683678' \n" << endl;
+    for (int i = 0; i < 8; ++i) 
+        tree._root = tree.Insert(tree._root, data[i]);
+    cout << tree.Print(tree._root) << endl;
+
+    cout << "\n\nFind node with key = '6' from tree:\n" << endl;
     cout << tree.Print(
-        tree.Find(tree._root, 8)
+        tree.Find(tree._root, 6)
     ) << endl;
 
     cout << "\n\nEnd of example" << endl;
